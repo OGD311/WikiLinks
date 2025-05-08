@@ -1,0 +1,4 @@
+mwxml
+mwparserfromhell
+cassandra-driver
+tqdm
