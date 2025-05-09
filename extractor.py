@@ -68,7 +68,7 @@ for page in dump:
                 if link.title and not link.title.startswith((
                     'File:', 'Image:', 'Special:', 
                     'Category:', 'Help:', 'Portal:', 
-                    'Template:', 'Wikipedia:', 'Wikt:'))
+                    'Template:', 'Wikipedia:', 'wikt:'))
                 )
         
         session.execute(insert_page_stmt, (title, links, False))
