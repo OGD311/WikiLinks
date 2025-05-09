@@ -8,6 +8,9 @@ class searchQueue:
 
     def is_empty(self):
         return len(self.items) == 0
+    
+    def clear(self):
+        self.items = []
 
     def enqueue(self, item):
         self.items.append(item)
