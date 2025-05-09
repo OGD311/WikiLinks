@@ -1,6 +1,7 @@
 class searchQueue:
-    def __init__(self):
+    def __init__(self, is_ordered=False):
         self.items = []
+        self.ordered = is_ordered
 
     def get_length(self):
         return len(self.items)
@@ -10,6 +11,11 @@ class searchQueue:
 
     def enqueue(self, item):
         self.items.append(item)
+        if self.ordered: self.sort( )
+
+    def sort(self):
+        # Assume that 2nd entry of tuple is key to sort by
+        self.items.sort(key=lambda x: x[1], reverse=False) 
 
     def show(self):
         print(self.items)
