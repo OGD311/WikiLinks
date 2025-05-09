@@ -40,5 +40,11 @@ class Node:
             print(f"Redirecting to '{new_title}'")
             self.load_node(new_title)
 
+    def get_links(self):
+        return self.links
+
+    def node_in_links(self, title):
+        return title in self.links
+
     def __str__(self):
         return f"Node(title='{self.title}', links={len(self.links)}, is_redirect={self.is_redirect})"
