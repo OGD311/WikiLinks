@@ -48,3 +48,8 @@ class Node:
 
     def __str__(self):
         return f"Node(title='{self.title}', links={len(self.links)}, is_redirect={self.is_redirect})"
+
+
+if __name__ == "__main__":
+    node = Node("Amsterdam")
+    print(node)
