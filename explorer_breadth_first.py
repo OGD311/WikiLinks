@@ -33,9 +33,11 @@ def breadth_first(start_title, goal_title):
 
     return None
 
-path = breadth_first("Amsterdam", "Asia")
-if path:
-    print("Path found:", " -> ".join(path))
-else:
-    print("No path found.")
+if __name__ == "__main__":
+    path = breadth_first("Amsterdam", "Asia")
+    if path:
+        print("Path found:", " -> ".join(path))
+    else:
+        print("No path found.")
+
 
