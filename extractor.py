@@ -25,6 +25,9 @@ session.execute("""
         links set<text>,
         is_redirect boolean
     );
+""")
+
+session.execute("""
     CREATE INDEX IF NOT EXISTS ON page_links (links);
 """)
 
@@ -35,10 +38,10 @@ session.execute("""
     );
 """)
 
-insert_page_query = "INSERT INTO page_links (title, links, is_redirect) VALUES (%s, %s, %s)"
-
-insert_redirect_query = "INSERT INTO redirects (original, redirect) VALUES (%s, %s)"
-
+insert_page_query = "INSERT INTO page_links (title, links, is_redirect) VALUES (?, ?, ?)"
+insert_redirect_query = "INSERT INTO redirects (original, redirect) VALUES (?, ?)"
+insert_page_stmt = session.prepare(insert_page_query)
+insert_redirect_stmt = session.prepare(insert_redirect_query)
 
 # Load wiki dump
 file = "enwiki-latest-pages-articles-multistream.xml"
@@ -49,14 +52,13 @@ pbar = tqdm(total=page_count)
 i = 0
 for page in dump:
    
-
     for revision in page:
 
         title = page.title
 
         if page.redirect:
-            session.execute(insert_page_query, (title, set(), True))
-            session.execute(insert_redirect_query, (title, page.redirect))
+            session.execute(insert_page_stmt, (title, set(), True))
+            session.execute(insert_redirect_stmt, (title, page.redirect))
             break
 
         wikicode = mwparserfromhell.parse(revision.text)
@@ -66,10 +68,10 @@ for page in dump:
                 if link.title and not link.title.startswith((
                     'File:', 'Image:', 'Special:', 
                     'Category:', 'Help:', 'Portal:', 
-                    'Template:', 'Wikipedia:'))
+                    'Template:', 'Wikipedia:', 'Wikt:'))
                 )
         
-        session.execute(insert_page_query, (title, links, False))
+        session.execute(insert_page_stmt, (title, links, False))
 
         break # Only want the first revision
 
