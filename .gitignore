@@ -1,3 +1,5 @@
 venv/*
 *.bz2
 *.xml
+.DS_Store
+__pycache__/
