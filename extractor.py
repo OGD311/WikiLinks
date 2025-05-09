@@ -24,7 +24,8 @@ session.execute("""
         title text PRIMARY KEY,
         links set<text>,
         is_redirect boolean
-    );   
+    );
+    CREATE INDEX IF NOT EXISTS ON page_links (links);
 """)
 
 session.execute("""
