@@ -23,6 +23,7 @@ It also allows me to workout if a page has a redirect, so I can execute the logi
 If the page is not a redirect, I next construct a set() of all links on said page, excluding wikipedia special tags like File:, Image:, Wikipedia:, etc; then I insert this data into the 'page_links' DB table.<br>
 Finally, I update the progress bar and move on
 
+---
 ### Searching the Nodes
 I chose 3 algorithms that I have learnt to try and implement for this problem:
 - Breadth First Search
