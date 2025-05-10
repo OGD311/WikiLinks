@@ -51,7 +51,7 @@ page_count = 6_990_400 # Approximate number of wikipedia 'pages' in the dump
 pbar = tqdm(total=page_count)
 i = 0
 
-MAX_BATCH = 20 * 1024  # ~40KB
+MAX_BATCH = 10 * 1024  # ~15kb
 batch = BatchStatement(batch_type=BatchType.UNLOGGED)
 current_size = 0
 
@@ -67,20 +67,22 @@ for page in dump:
         if page.redirect:
             values1 = (title, set(), True)
             values2 = (title, page.redirect)
-
             row_size = size_of(values1) + size_of(values2)
 
-            if current_size + row_size > MAX_BATCH:
-                session.execute(batch)
-                batch = BatchStatement(batch_type=BatchType.UNLOGGED)
-                current_size = 0
+            if row_size > MAX_BATCH:
+                session.execute(insert_page_stmt, values1)
+                session.execute(insert_redirect_stmt, values2)
+            else:
+                if current_size + row_size > MAX_BATCH:
+                    session.execute(batch)
+                    batch = BatchStatement(batch_type=BatchType.UNLOGGED)
+                    current_size = 0
 
-            batch.add(insert_page_stmt, values1)
-            batch.add(insert_redirect_stmt, values2)
-            current_size += row_size
+                batch.add(insert_page_stmt, values1)
+                batch.add(insert_redirect_stmt, values2)
+                current_size += row_size
 
             pbar.update(1)
-
             break
 
         wikicode = mwparserfromhell.parse(revision.text)
@@ -96,16 +98,18 @@ for page in dump:
         values = (title, links, False)
         row_size = size_of(values)
 
-        if current_size + row_size > MAX_BATCH:
-            session.execute(batch)
-            batch = BatchStatement(batch_type=BatchType.UNLOGGED)
-            current_size = 0
+        if row_size > MAX_BATCH:
+            session.execute(insert_page_stmt, values)
+        else:
+            if current_size + row_size > MAX_BATCH:
+                session.execute(batch)
+                batch = BatchStatement(batch_type=BatchType.UNLOGGED)
+                current_size = 0
 
-        batch.add(insert_page_stmt, values)
-        current_size += row_size
+            batch.add(insert_page_stmt, values)
+            current_size += row_size
 
         pbar.update(1)
-
         break  # only use first revision
 
 # Final execute
