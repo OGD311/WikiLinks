@@ -20,7 +20,6 @@ It also allows me to workout if a page has a redirect, so I can execute the logi
 - Insert the current title, an empty set, and True (for is_redirect) into the 'page_links' DB table
 - Insert the current title and the redirect title into the 'redirects' DB table
 - break out of the loop early and move onto the next page
-<br>
 If the page is not a redirect, I next construct a set() of all links on said page, excluding wikipedia special tags like File:, Image:, Wikipedia:, etc; then I insert this data into the 'page_links' DB table.<br>
 Finally, I update the progress bar and move on
 
