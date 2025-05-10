@@ -13,7 +13,7 @@ I decided to keep things simple, and only have two database tables: 'page_links'
 page_links holds the title as text, a set() of all its links, and is_redirect as a boolean of if the page redirects elsewhere.<br>
 redirects holds the 'original' (the page the redirect is coming from), and 'redirect' (the page we are redirecting too)<br>
 <br>
-The second step in my process is to load the wikidump using the 'mwxml' python library, specifically made for the task of parsing mediawiki datadumps. This allows me to access 'pages' and 'revisions' from within the dump without any extra parsing - meaning I can immediately grab a pages current revision and title.<br>
+The second step in my process is to load the wikidump using the 'mwxml' python library[^4], specifically made for the task of parsing mediawiki datadumps. This allows me to access 'pages' and 'revisions' from within the dump without any extra parsing - meaning I can immediately grab a pages current revision and title.<br>
 It also allows me to workout if a page has a redirect, so I can execute the logic for that which involves:
 - Grab the pages title
 - Grab the title of the page we are redirecting too
@@ -29,11 +29,11 @@ I chose 3 algorithms that I have learnt to try and implement for this problem:
 - Branch and Bound
 - Iterative Deepening Depth First Search
 
-#### Breadth First Search [^4]
+#### Breadth First Search [^5]
 The simplest search algorithm to implement, Breadth First Search (BFS) gets a node off the queue, checks to see if it is the goal node otherwise it gets all its children (i.e links) and adds them to the queue - before repeating until a solution is found.<br>
 The solution found is not necessarily the shortest, as it solely depends on the order the links are added to the queue (in this case the order the links appear on each page)
 
-#### Branch and Bound [^5]
+#### Branch and Bound [^6]
 Branch and Bound allows us to efficiently find a solution by exploring and pruning parts of the solution space.<br>
 We first start with the beginning page (start_title) and a cost of 0 assigned to that node with new nodes being added by updating their cost by 1.<br>
 A priority queue is then used to always explore the cheapest path first.<br>
@@ -41,7 +41,7 @@ We also keep track of the best path found so far (shortest one), updating it if 
 <br>
 By following these steps, I can ensure that the path generated is guaranteed to be the shortest possible path - although this doesn't mean the algorithm is the fastest out of these options.
 
-#### Iterative Deepening Depth First Search [^6]
+#### Iterative Deepening Depth First Search [^7]
 Iterative Deepening Depth First Search (IDDFS) works by combining the benefits of BFS (breadth-first search) and DFS (depth-first search) to generate a guaranteed shortest solution in a shorter period of time than branch and bound.<br>
 My code achieves this by setting a starting 'depth', checking all paths up to that depth for a solution. If no solution is found, then I increment depth and repeat the process.<br>
 To speed up my algorithm and reduce overhead, while keeping it complete, I chose to use two queues, with one queue storing the last nodes at the value of my 'depth', meaning that on the next iteration (i.e after I have increased my depth) I could pickup from where I left off and continue searching quickly, rather than having to retrace old, explored nodes.
@@ -56,6 +56,7 @@ I would like to develop this further, with the following changes hoping to impro
 [^1]: https://en.wikipedia.org/wiki/Six_degrees_of_separation
 [^2]: https://en.wikipedia.org/wiki/Wikipedia:Six_degrees_of_Wikipedia#Other_versions
 [^3]: https://en.wikipedia.org/wiki/Apache_Cassandra
-[^4]: https://en.wikipedia.org/wiki/Breadth-first_search
-[^5]: https://en.wikipedia.org/wiki/Branch_and_bound
-[^6]: https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search
+[^4]: https://www.mediawiki.org/wiki/Mediawiki-utilities/mwxml
+[^5]: https://en.wikipedia.org/wiki/Breadth-first_search
+[^6]: https://en.wikipedia.org/wiki/Branch_and_bound
+[^7]: https://en.wikipedia.org/wiki/Iterative_deepening_depth-first_search
