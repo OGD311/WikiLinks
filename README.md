@@ -1,5 +1,5 @@
 # WikiLinks
-There is a popular hypothesis, known as six degrees of separation, holding that any two people are separated by a chain of no more than six acquaintances. [^1]<br>
+There is a popular hypothesis, known as six degrees of separation, holding that any two people are separated by a chain of no more than six acquaintances[^1], the same holds true for the millions of pages of Wikipedia.<br>
 This concept has been popularised by sites such as [Wikipedia Speedruns](https://www.wikipedia.org/wiki/Wikipedia:Wikipedia_Speedruns) and [6 Degrees of Wikipedia](https://www.sixdegreesofwikipedia.com/)[^2]<br><br>
 Recently, when I was playing Wikipedia Speedruns with some of my friends we would use 6 Degrees of Wikipedia to see how quickly we could have made connections (compared to the absurd number of routes we took to connect two pages), but found some issues as not all links between articles seemed valid (potentially due to connections being broken due to page updates, different algorithm for denoting what counts as being 'linked' and even the handling of redirects without making it clear to the end user)<br><br>
 So I decided to create my own version, using Cassandra (A high availability, highly performant, fault tolerant NoSQL Database)[^3], and Python, as Python is known for making reading large files much easier and is the language I am most confident in.<br>
@@ -23,6 +23,7 @@ It also allows me to workout if a page has a redirect, so I can execute the logi
 If the page is not a redirect, I next construct a set() of all links on said page, excluding wikipedia special tags like File:, Image:, Wikipedia:, etc; then I insert this data into the 'page_links' DB table.<br>
 Finally, I update the progress bar and move on
 
+---
 ### Searching the Nodes
 I chose 3 algorithms that I have learnt to try and implement for this problem:
 - Breadth First Search
