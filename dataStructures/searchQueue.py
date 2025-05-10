@@ -1,9 +1,8 @@
 from operator import itemgetter
 
 class searchQueue:
-    def __init__(self, is_ordered=False):
+    def __init__(self):
         self.items = []
-        self.ordered = is_ordered
 
     def get_length(self):
         return len(self.items)
@@ -16,10 +15,6 @@ class searchQueue:
 
     def enqueue(self, item):
         self.items.append(item)
-
-    def sort(self):
-        # Assume that 2nd entry of tuple is key to sort by
-        self.items.sort(key=itemgetter(1))
 
     def show(self):
         print(self.items)
