@@ -12,7 +12,7 @@ The first step in parsing the data and populating my database is to actually set
 I decided to keep things simple, and only have two database tables: 'page_links' and 'redirects'<br>
 page_links holds the title as text, a set() of all its links, and is_redirect as a boolean of if the page redirects elsewhere.<br>
 redirects holds the 'original' (the page the redirect is coming from), and 'redirect' (the page we are redirecting too)<br>
-<br><br>
+<br>
 The second step in my process is to load the wikidump using the 'mwxml' python library, specifically made for the task of parsing mediawiki datadumps. This allows me to access 'pages' and 'revisions' from within the dump without any extra parsing - meaning I can immediately grab a pages current revision and title.<br>
 It also allows me to workout if a page has a redirect, so I can execute the logic for that which involves:
 - Grab the pages title
