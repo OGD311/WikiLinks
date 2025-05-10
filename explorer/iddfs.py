@@ -1,5 +1,4 @@
-from searchQueue import searchQueue
-from node import Node
+from dataStructures import Node, searchQueue
 from function_timer import timer
 
 @timer
@@ -13,7 +12,6 @@ def IDDFS(start_title, goal_title, depth=2):
     while not queue.is_empty():
         current_path = queue.dequeue()
         current_title = current_path[-1]
-        print(f"Current path: {current_path}, Current title: {current_title}")
 
         if len(current_path) == depth:
             nextQueue.enqueue(current_title)

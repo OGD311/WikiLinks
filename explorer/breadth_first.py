@@ -1,7 +1,5 @@
-from searchQueue import searchQueue
-from node import Node
+from dataStructures import Node, searchQueue
 from function_timer import timer
-
 @timer
 def breadth_first(start_title, goal_title):
     queue = searchQueue()
